@@ -7,7 +7,8 @@ async function tokenAuth(req, res, next) {
 	if (authToken != undefined) {
 		const token = authToken.split(' ')[1];
 		try {
-			await jwt.verify(token, secret);
+			const decoded = await jwt.verify(token, secret);
+			req.decodedToken = decoded;
 			next();
 		} catch (e) {
 			return res

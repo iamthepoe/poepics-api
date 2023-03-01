@@ -1,17 +1,23 @@
-const multer = require('multer');
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, 'uploads/');
-	},
-	filename: function (req, file, cb) {
-		cb(null, file.originalname);
-	},
-});
-
 class ImageRepository {
 	constructor({ ImageModel }) {
 		this.ImageModel = ImageModel;
 	}
 
-	async create() {}
+	async create(title, description, privacy, fileName, contentType, user) {
+		try {
+			await this.ImageModel.create({
+				title,
+				description,
+				privacy,
+				fileName,
+				contentType,
+				user,
+			});
+			return true;
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
 }
+
+module.exports = ImageRepository;

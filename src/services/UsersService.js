@@ -210,7 +210,7 @@ class UserService {
 			return { error: true, message: 'Incorrect password', status: 403 };
 
 		try {
-			let res = await jwt.sign({ email }, JWTSecret, {
+			let res = await jwt.sign({ email, id: data.user._id }, JWTSecret, {
 				expiresIn: '72h',
 			});
 			return {
