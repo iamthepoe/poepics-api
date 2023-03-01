@@ -27,7 +27,7 @@ beforeAll(async () => {
 });
 
 describe('CREATE Tests', () => {
-	it('should upload a image if success', () => {
+	it('should upload a image with success', () => {
 		return request
 			.post('/images')
 			.set('Authorization', `Bearer ${token}`)
