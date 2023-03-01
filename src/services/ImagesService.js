@@ -8,6 +8,12 @@ class ImageService {
 	}
 
 	async create(title, description, privacy, file, user) {
+		if (!file)
+			return {
+				error: true,
+				status: 403,
+				message: 'Only images are allowed!',
+			};
 		if (!user?.trim())
 			return { error: true, status: 403, message: 'Invalid user.' };
 

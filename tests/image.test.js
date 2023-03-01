@@ -7,12 +7,16 @@ const request = supertest(app);
 const { fail } = require('./helpers.js');
 const jwt = require('jsonwebtoken');
 const JWTSecret = process.env.JWT_SECRET;
-var token, fileStream;
+var token, fileStream, notAImage;
 
 beforeAll(async () => {
-	const filePath = path.join(__dirname, 'assets', 'joy.png');
 	try {
-		fileStream = await fs.createReadStream(filePath);
+		fileStream = await fs.createReadStream(
+			path.join(__dirname, 'assets', 'joy.png')
+		);
+		notAImage = await fs.readFileSync(
+			path.join(__dirname, 'assets', 'notaimage.rs')
+		);
 		token = await jwt.sign(
 			{ email: 'imjustaregularuser@user.app', id: 'aasdaosdjp' },
 			JWTSecret
@@ -45,6 +49,22 @@ describe('CREATE Tests', () => {
 			.set('Content-Type', 'multipart/form-data')
 			.field('privacy', 'public')
 			.attach('file', fileStream)
+			.then((res) => {
+				expect(res.statusCode).toEqual(403);
+				expect(res.body?.data?.link).toBeUndefined();
+			})
+			.catch((e) => {
+				fail(e);
+			});
+	});
+
+	it('should prevent a user from uploading a file who is not a image', () => {
+		return request
+			.post('/images')
+			.set('Authorization', `Bearer ${token}`)
+			.set('Content-Type', 'multipart/form-data')
+			.field('privacy', 'public')
+			.attach('file', notAImage)
 			.then((res) => {
 				expect(res.statusCode).toEqual(403);
 				expect(res.body?.data?.link).toBeUndefined();
