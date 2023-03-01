@@ -38,4 +38,19 @@ describe('CREATE Tests', () => {
 				fail(e);
 			});
 	});
+
+	it('should prevent user from uploading an image without token', () => {
+		return request
+			.post('/images')
+			.set('Content-Type', 'multipart/form-data')
+			.field('privacy', 'public')
+			.attach('file', fileStream)
+			.then((res) => {
+				expect(res.statusCode).toEqual(403);
+				expect(res.body?.data?.link).toBeUndefined();
+			})
+			.catch((e) => {
+				fail(e);
+			});
+	});
 });

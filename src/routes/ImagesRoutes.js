@@ -1,10 +1,11 @@
 const ImageFactory = require('../factories/ImageFactory.js');
 const imageService = ImageFactory.generateInstance();
 const router = require('express').Router();
-const upload = require('../middlewares/multer.js');
+const upload = require('../middlewares/modules/multer.js');
 const tokenAuth = require('../middlewares/tokenAuth.js');
+const sendPhoto = require('../middlewares/sendphoto.js');
 
-router.post('/images', tokenAuth, upload.single('file'), async (req, res) => {
+router.post('/images', tokenAuth, sendPhoto('file'), async (req, res) => {
 	const { title, description, privacy } = req.body;
 	let result = await imageService.create(
 		title,

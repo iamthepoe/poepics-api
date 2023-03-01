@@ -12,11 +12,11 @@ async function tokenAuth(req, res, next) {
 			next();
 		} catch (e) {
 			return res
-				.status(401)
+				.status(403)
 				.json({ error: 'true', message: 'Invalid token!' });
 		}
 	} else {
-		return res.status(401).json({ error: true, message: 'Invalid token!' });
+		return res.status(403).json({ error: true, message: 'Invalid token!' });
 	}
 }
 
