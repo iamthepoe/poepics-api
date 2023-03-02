@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 class ImageRepository {
 	constructor({ ImageModel }) {
 		this.ImageModel = ImageModel;
@@ -17,6 +19,24 @@ class ImageRepository {
 		} catch (e) {
 			throw new Error(e);
 		}
+	}
+
+	async findOneAndDelete(fileName) {
+		try {
+			await this.ImageModel.findOneAndDelete({ fileName });
+			return true;
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+
+	deleteFile(filePath) {
+		fs.unlink(filePath, (e) => {
+			if (e) {
+				throw new Error(e);
+			}
+			return true;
+		});
 	}
 }
 

@@ -56,6 +56,33 @@ class ImageService {
 			};
 		}
 	}
+
+	async deleteOne(fileName) {
+		if (!fileName?.trim())
+			return {
+				error: true,
+				status: 403,
+				message: `You can't pass a empty filename.`,
+			};
+
+		try {
+			this.ImageRepository.deleteFile(
+				path.join(__dirname + '../../../uploads/' + fileName)
+			);
+			await this.ImageRepository.findOneAndDelete(fileName);
+			return {
+				error: false,
+				status: 200,
+				message: 'Deleted.',
+			};
+		} catch (e) {
+			return {
+				error: true,
+				status: 400,
+				message: 'Something wrong occurred with your deletion: \n' + e,
+			};
+		}
+	}
 }
 
 module.exports = ImageService;
