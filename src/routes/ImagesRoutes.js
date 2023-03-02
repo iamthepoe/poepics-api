@@ -18,9 +18,9 @@ router.post('/images', tokenAuth, sendPhoto('file'), async (req, res) => {
 	res.status(status).json({ message, data: data || {} });
 });
 
-router.delete('/images/:filename', async (req, res) => {
+router.delete('/images/:filename', tokenAuth, async (req, res) => {
 	const { filename } = req.params;
-	let result = await imageService.deleteOne(filename);
+	let result = await imageService.deleteOne(filename, req.decodedToken.id);
 	const { status, message } = result;
 	return res.status(status).json({ message });
 });

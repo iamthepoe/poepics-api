@@ -30,13 +30,13 @@ class ImageRepository {
 		}
 	}
 
-	deleteFile(filePath) {
-		fs.unlink(filePath, (e) => {
-			if (e) {
-				throw new Error(e);
-			}
+	async deleteFile(filePath) {
+		try {
+			await fs.promises.unlink(filePath);
 			return true;
-		});
+		} catch (e) {
+			throw new Error(e);
+		}
 	}
 }
 

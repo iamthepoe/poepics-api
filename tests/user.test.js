@@ -12,9 +12,11 @@ let mainUser = {
 };
 
 let adminToken = jwt.sign(
-	{ email: 'admin@api.root', isAdmin: true },
+	{ email: 'admin@api.root', isAdmin: true, id: 'admin' },
 	process.env.JWT_SECRET
 );
+
+console.log(adminToken);
 
 beforeAll(async () => {
 	try {

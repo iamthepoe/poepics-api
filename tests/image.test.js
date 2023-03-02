@@ -74,3 +74,12 @@ describe('CREATE Tests', () => {
 			});
 	});
 });
+
+describe('READ Tests', () => {
+	it('should return all public images', () => {
+		return request.get('/images').then((res) => {
+			expect(res.statusCode).toEqual(200);
+			expect(res.body?.data?.images).toBeDefined();
+		});
+	});
+});

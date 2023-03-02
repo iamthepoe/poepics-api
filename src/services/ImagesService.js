@@ -44,6 +44,7 @@ class ImageService {
 				error: false,
 				status: 201,
 				data: {
+					//change this to path with user id
 					link: `${url}/uploads/${file.filename}`,
 				},
 				message: 'Created.',
@@ -57,7 +58,7 @@ class ImageService {
 		}
 	}
 
-	async deleteOne(fileName) {
+	async deleteOne(fileName, userId) {
 		if (!fileName?.trim())
 			return {
 				error: true,
@@ -66,8 +67,8 @@ class ImageService {
 			};
 
 		try {
-			this.ImageRepository.deleteFile(
-				path.join(__dirname + '../../../uploads/' + fileName)
+			await this.ImageRepository.deleteFile(
+				path.join(__dirname + `../../../uploads/${userId}/${fileName}`)
 			);
 			await this.ImageRepository.findOneAndDelete(fileName);
 			return {
