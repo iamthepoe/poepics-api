@@ -82,4 +82,25 @@ describe('READ Tests', () => {
 			expect(res.body?.data?.images).toBeDefined();
 		});
 	});
+
+	it('should return all images of user who is sending requisition', () => {
+		return request
+			.get('/users/images')
+			.set('Authorization', `Bearer ${token}`)
+			.then((res) => {
+				expect(res.statusCode).toEqual(200);
+				expect(res.body?.data?.images).toBeDefined();
+			});
+	});
+
+	it('should return all images of user who is sending requisition, based on privacy param', () => {
+		let privacy = 'private';
+		return request
+			.get('/users/images/' + privacy)
+			.set('Authorization', `Bearer ${token}`)
+			.then((res) => {
+				expect(res.statusCode).toEqual(200);
+				expect(res.body?.data?.images).toBeDefined();
+			});
+	});
 });

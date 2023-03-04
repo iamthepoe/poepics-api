@@ -58,6 +58,24 @@ class ImageService {
 		}
 	}
 
+	async findByPrivacy(privacy) {
+		try {
+			let images = await this.ImageRepository.findByPrivacy(privacy);
+			return {
+				error: false,
+				status: 200,
+				data: { images },
+				message: 'Finded.',
+			};
+		} catch (e) {
+			return {
+				error: true,
+				status: 400,
+				message: `Something wrong occurred with your search: \n` + e,
+			};
+		}
+	}
+
 	async deleteOne(fileName, userId) {
 		if (!fileName?.trim())
 			return {

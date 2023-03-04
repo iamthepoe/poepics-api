@@ -16,8 +16,6 @@ let adminToken = jwt.sign(
 	process.env.JWT_SECRET
 );
 
-console.log(adminToken);
-
 beforeAll(async () => {
 	try {
 		await request.post('/users').send(mainUser);

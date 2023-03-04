@@ -5,6 +5,14 @@ const upload = require('../middlewares/modules/multer.js');
 const tokenAuth = require('../middlewares/tokenAuth.js');
 const sendPhoto = require('../middlewares/sendphoto.js');
 
+router.get('/images', async (req, res) => {
+	let result = await imageService.findByPrivacy('public');
+	const { status, message, data } = result;
+	return res.status(status).json({ message, data: data || {} });
+});
+
+router.get('/images/:privacy', async (req, res) => {});
+
 router.post('/images', tokenAuth, sendPhoto('file'), async (req, res) => {
 	const { title, description, privacy } = req.body;
 	let result = await imageService.create(

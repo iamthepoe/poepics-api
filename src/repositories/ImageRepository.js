@@ -21,6 +21,15 @@ class ImageRepository {
 		}
 	}
 
+	async findByPrivacy(privacy) {
+		try {
+			await this.ImageModel.find({ privacy });
+			return true;
+		} catch (e) {
+			throw new Error(e);
+		}
+	}
+
 	async findOneAndDelete(fileName) {
 		try {
 			await this.ImageModel.findOneAndDelete({ fileName });
