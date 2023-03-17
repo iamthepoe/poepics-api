@@ -21,10 +21,10 @@ class ImageRepository {
 		}
 	}
 
-	async findByPrivacy(privacy) {
+	async find(query) {
 		try {
-			await this.ImageModel.find({ privacy });
-			return true;
+			const images = await this.ImageModel.find(query);
+			return images;
 		} catch (e) {
 			throw new Error(e);
 		}

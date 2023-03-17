@@ -19,7 +19,7 @@ class ImageService {
 
 		if (
 			!privacy?.trim() ||
-			privacy != ('public' || 'private' || 'unlisted')
+			!['public', 'private', 'unlisted'].includes(privacy)
 		)
 			return {
 				error: true,
@@ -45,7 +45,7 @@ class ImageService {
 				status: 201,
 				data: {
 					//change this to path with user id
-					link: `${url}/uploads/${file.filename}`,
+					link: `${url}/images/file/${file.filename}`,
 				},
 				message: 'Created.',
 			};
@@ -60,7 +60,7 @@ class ImageService {
 
 	async find(query) {
 		try {
-			let images = await this.ImageRepository.findByPrivacy(privacy);
+			let images = await this.ImageRepository.find(query);
 			return {
 				error: false,
 				status: 200,
@@ -76,6 +76,17 @@ class ImageService {
 		}
 	}
 
+	async findPath(user, filename) {
+		return path.join(__dirname, `../../uploads/${user}/${filename}`);
+	}
+
+	async CanSeeImage(owner, requester, privacy) {
+		if (privacy != 'private') return true;
+
+		if (owner === requester) return true;
+
+		return false;
+	}
 	async deleteOne(fileName, userId) {
 		if (!fileName?.trim())
 			return {

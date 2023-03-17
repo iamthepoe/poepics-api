@@ -21,6 +21,7 @@ beforeAll(async () => {
 			{ email: 'imjustaregularuser@user.app', id: 'aasdaosdjp' },
 			JWTSecret
 		);
+		console.log(token);
 	} catch (e) {
 		fail(e);
 	}
@@ -96,7 +97,7 @@ describe('READ Tests', () => {
 	it('should return all images of user who is sending requisition, based on privacy param', () => {
 		let privacy = 'private';
 		return request
-			.get('/users/images/' + privacy)
+			.get('/users/images?privacy=' + privacy)
 			.set('Authorization', `Bearer ${token}`)
 			.then((res) => {
 				expect(res.statusCode).toEqual(200);
