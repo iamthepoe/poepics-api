@@ -58,7 +58,7 @@ class ImageService {
 		}
 	}
 
-	async findByPrivacy(privacy) {
+	async find(query) {
 		try {
 			let images = await this.ImageRepository.findByPrivacy(privacy);
 			return {
